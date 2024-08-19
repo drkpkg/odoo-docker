@@ -92,6 +92,22 @@ db_user = odoo
 db_password = odoo
 ```
 
+#### Odoo para multiples clientes
+
+Supongamos que tienes n clientes, cada cliente tiene su propia instancia de base de datos, por lo tanto, el odoo conf debe tener la siguiente estructura.
+
+```bash
+[options]
+addons_path = ./odoo/addons,./extra-addons/modulo1,./extra-addons/modulo2
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = odoo
+dbfilter = ^%d$
+```
+
+Donde %d es el nombre de la base de datos. Esto reflejado en la web seria como cliente1.midominio.com, cliente2.midominio.com, etc. donde cliente1, cliente2, etc. son los nombres de las bases de datos.
+
 ### Levantar Docker compose
 
 ```bash
@@ -112,4 +128,36 @@ La estructura del comando es la siguiente:
 
 ```bash
 ./odoo/odoo-bin scaffold modulo1 ./extra-addons/modulo1
+```
+
+## Produccion
+
+### Nginx
+
+```bash
+sudo apt install nginx
+```
+
+### Configurar ufw
+
+El cometido con UFW es permitir el tráfico de Nginx por medio de un dominio, mas no por la IP y el puerto, por defecto se usa el puerto 8069 y 8071 en odoo, estos son visibles y accesibles por cualquier persona, por lo tanto, se debe restringir el acceso a estos puertos.
+
+Deshabilitar los puertos 8069 y 8071 de que sean publicos y solo sean accesibles por el servidor.
+
+```bash
+sudo ufw deny 8069
+sudo ufw deny 8071
+```
+
+Habilitar nginx en ufw
+```bash
+sudo ufw allow 'Nginx Full'
+sudo ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTPS'
+```
+
+### Build de Odoo
+
+```bash
+docker compose up -d --build
 ```
