@@ -1,25 +1,25 @@
 services:
-  web-15:
-    container_name: odoo
-    image: odoo:15.0
-    depends_on:
-      - db-15
-    ports:
-      - "8069:8069"
-    volumes:
-      - ./odoo-conf:/etc/odoo
-      - extra-addons:/mnt/extra-addons
-      - odoo-data:/var/lib/odoo
-    environment:
-      - HOST=db-15
-      - USER=odoo
-      - PASSWORD=odoo
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=odoo
-    networks:
-      - odoo-net-15
-    restart: always
+  # web-15:
+  #   container_name: odoo
+  #   image: odoo:15.0
+  #   depends_on:
+  #     - db-15
+  #   ports:
+  #     - "8069:8069"
+  #   volumes:
+  #     - ./odoo-conf:/etc/odoo
+  #     - extra-addons:/mnt/extra-addons
+  #     - odoo-data:/var/lib/odoo
+  #   environment:
+  #     - HOST=db-15
+  #     - USER=odoo
+  #     - PASSWORD=odoo
+  #     - POSTGRES_DB=postgres
+  #     - POSTGRES_USER=odoo
+  #     - POSTGRES_PASSWORD=odoo
+  #   networks:
+  #     - odoo-net-15
+  #   restart: always
   db-15:
     container_name: db-15
     image: postgres:latest
